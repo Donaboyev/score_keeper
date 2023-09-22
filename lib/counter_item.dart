@@ -4,6 +4,8 @@ class CounterItem extends StatelessWidget {
   final int count;
   final Function() onAdd;
   final Function() onSubtract;
+  final Function() onLongTap;
+  final Function() onTapCancel;
   final Color color;
 
   const CounterItem({
@@ -11,6 +13,8 @@ class CounterItem extends StatelessWidget {
     required this.count,
     required this.onAdd,
     required this.onSubtract,
+    required this.onLongTap,
+    required this.onTapCancel,
     required this.color,
   });
 
@@ -40,11 +44,13 @@ class CounterItem extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 50),
           ),
         ),
-        const SizedBox(
-          height: 45,
-        ),
-        InkWell(
+        const SizedBox(height: 45),
+        GestureDetector(
           onTap: onAdd,
+          onLongPress: onLongTap,
+          onLongPressEnd: (details) {
+            onTapCancel();
+          },
           child: Container(
             alignment: Alignment.center,
             width: 160,
@@ -57,9 +63,7 @@ class CounterItem extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(
-          height: 30,
-        ),
+        const SizedBox(height: 30),
         InkWell(
           onTap: onSubtract,
           child: Container(
